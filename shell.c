@@ -9,7 +9,35 @@
 
 int main(int argc, char *argv[])
 {
+	char str[MAX_TERM_LEN];
+	char *const args[] = {"/bin/sh", "-c", NULL};
+	pid_t childpid;
+
 	(void) argv;
-	printf("%d\n", argc);
+	(void) argc;
+	/* printf("%d\n", argc); */
+	
+	while (1)
+	{
+		prompt(str);
+		/* printf("%s\n", str); */
+		childpid = fork();
+
+		if(childpid == 0)
+		{
+			execve(str, args, __environ);
+			printf("\n./shell: No such file or directory\n");
+		}
+
+		/* printf("%i\n", err); */
+	}
+
+	putchar('\n');
 	return (0);
+}
+
+void prompt(char *str)
+{
+	printf(GRN "(simple_shell) " RED "$ " RESET);
+	scanf("%[^\n]%*c", str);
 }
