@@ -10,8 +10,7 @@
 int main(int argc, char *argv[])
 {
 	char str[MAX_TERM_LEN];
-	char *const args[] = {"/bin/sh", "-c", NULL};
-	pid_t childpid;
+	char command[MAX_TERM_LEN];
 
 	(void) argv;
 	(void) argc;
@@ -20,14 +19,11 @@ int main(int argc, char *argv[])
 	while (1)
 	{
 		prompt(str);
-		/* printf("%s\n", str); */
-		childpid = fork();
-
-		if(childpid == 0)
-		{
-			execve(str, args, __environ);
-			printf("\n./shell: No such file or directory\n");
-		}
+		if (str[0] == '\n')
+			continue;
+		stripln(str, command);
+		if (_exec(command))
+			printf("./shell: No such file or directory\n");
 
 		/* printf("%i\n", err); */
 	}
@@ -39,5 +35,22 @@ int main(int argc, char *argv[])
 void prompt(char *str)
 {
 	printf(GRN "(simple_shell) " RED "$ " RESET);
-	scanf("%[^\n]%*c", str);
+	fgets(str, MAX_TERM_LEN, stdin);
+}
+
+void stripln(char *str, char *command)
+{
+	size_t i = 0;
+
+	memset(command,0,strlen(command));
+	for (; i < strlen(str)-1; i++)
+	{
+		if (str[i] == '\n')
+		{
+			str[i] = '\0';
+			break;
+		}
+		else
+			command[i] = str[i];
+	}
 }

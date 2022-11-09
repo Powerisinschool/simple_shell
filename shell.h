@@ -14,8 +14,11 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include <unistd.h>
 
+int _exec(char *command);
 void prompt(char *str);
+void stripln(char *str, char *command);
 
 #endif /* SHELL_H */
