@@ -1,24 +1,27 @@
 #include "shell.h"
 
 /**
- * main - Entry point
- * @argc: argument count
- * @argv: arguments as array
- * Return: Always 0
- */
+* main - Entry point
+* @argc: argument count
+* @argv: arguments as array
+* Return: Always 0
+*/
 
 int main(int argc, char *argv[])
 {
 	char cmd[MAX_TERM_LEN];
 	char command[MAX_TERM_LEN];
 	char *args[10];
+	int err;
 
 	(void) argv;
 	(void) argc;
 
 	while (1)
 	{
-		prompt(cmd);
+		err = prompt(cmd);
+		if (err)
+			break;
 		if (cmd[0] == '\n')
 			continue;
 		stripln(cmd, command);
@@ -33,10 +36,10 @@ int main(int argc, char *argv[])
 }
 
 /**
- * _splitstr - Split string function
- * @str: string to be split
- * @args: split string to return
- */
+* _splitstr - Split string function
+* @str: string to be split
+* @args: split string to return
+*/
 
 void _splitstr(char *str, char **args)
 {
@@ -53,21 +56,32 @@ void _splitstr(char *str, char **args)
 }
 
 /**
- * prompt - Prompt for input in the shell
- * @str: pointer to prompted output
- */
+* prompt - Prompt for input in the shell
+* @str: pointer to prompted output
+*/
 
-void prompt(char *str)
+int prompt(char *str)
 {
 	printf(GRN "(simple_shell) " CYN "$ " RESET);
-	fgets(str, MAX_TERM_LEN, stdin);
+	if (fgets(str, MAX_TERM_LEN, stdin) == NULL)
+		return (-1);
+	/*{
+		printf("%s", str);
+		if(str[strlen(str)-1] == '\0') {
+			printf("EOF\n");
+			return (-1);
+			break;
+		} else if (str[strlen(str)-1] == '\n')
+			return (0);
+	}*/
+	return (0);
 }
 
 /**
- * stripln - Strips strings to their first line break
- * @str: string to be stripped of line break
- * @command: stripped string
- */
+* stripln - Strips strings to their first line break
+* @str: string to be stripped of line break
+* @command: stripped string
+*/
 
 void stripln(char *str, char *command)
 {

@@ -20,7 +20,7 @@
 #include <unistd.h>
 
 int _exec(char *command, char *args[]);
-void prompt(char *str);
+int prompt(char *str);
 void _splitstr(char *str, char **args);
 void stripln(char *str, char *command);
 
