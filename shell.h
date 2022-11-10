@@ -16,10 +16,12 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 int _exec(char *command, char *args[]);
+int _isCommand(char *cmd);
 int prompt(char *str);
 void _splitstr(char *str, char **args);
 void stripln(char *str, char *command);

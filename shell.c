@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 	char command[MAX_TERM_LEN];
 	char *args[10];
 	int err;
+	char epath[1024];
 
 	(void) argv;
 	(void) argc;
@@ -25,12 +26,23 @@ int main(int argc, char *argv[])
 		if (cmd[0] == '\n')
 			continue;
 		stripln(cmd, command);
+		if (!strcmp(command, "exit"))
+			break;
 		_splitstr(command, args);
 
-		if (_exec(command, args))
+		/* Do not remove this line! */
+		/* I don't know why it works like this, but it does! */
+		strcpy(epath, args[0]);
+
+		if (!_isCommand(epath))
+		{
+			printf("Hmm...\n");
+			continue;
+		}
+
+		if (_exec(epath, args))
 			printf(NOT_FOUND);
 	}
-
 	putchar('\n');
 	return (0);
 }
