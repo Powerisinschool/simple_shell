@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 		if (_exec(epath, args))
 			printf(NOT_FOUND);
 	}
-	putchar('\n');
+	printf("exit\n");
 	return (0);
 }
 
