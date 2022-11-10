@@ -9,41 +9,72 @@
 
 int main(int argc, char *argv[])
 {
-	char str[MAX_TERM_LEN];
+	char cmd[MAX_TERM_LEN];
 	char command[MAX_TERM_LEN];
+	char *args[10];
 
 	(void) argv;
 	(void) argc;
-	/* printf("%d\n", argc); */
-	
+
 	while (1)
 	{
-		prompt(str);
-		if (str[0] == '\n')
+		prompt(cmd);
+		if (cmd[0] == '\n')
 			continue;
-		stripln(str, command);
-		if (_exec(command))
-			printf("./shell: No such file or directory\n");
+		stripln(cmd, command);
+		_splitstr(command, args);
 
-		/* printf("%i\n", err); */
+		if (_exec(command, args))
+			printf(NOT_FOUND);
 	}
 
 	putchar('\n');
 	return (0);
 }
 
+/**
+ * _splitstr - Split string function
+ * @str: string to be split
+ * @args: split string to return
+ */
+
+void _splitstr(char *str, char **args)
+{
+	int i = 0;
+	char *token = strtok(str, " ");
+
+	while (token)
+	{
+		args[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+	args[i] = NULL;
+}
+
+/**
+ * prompt - Prompt for input in the shell
+ * @str: pointer to prompted output
+ */
+
 void prompt(char *str)
 {
-	printf(GRN "(simple_shell) " RED "$ " RESET);
+	printf(GRN "(simple_shell) " CYN "$ " RESET);
 	fgets(str, MAX_TERM_LEN, stdin);
 }
+
+/**
+ * stripln - Strips strings to their first line break
+ * @str: string to be stripped of line break
+ * @command: stripped string
+ */
 
 void stripln(char *str, char *command)
 {
 	size_t i = 0;
 
-	memset(command,0,strlen(command));
-	for (; i < strlen(str)-1; i++)
+	memset(command, 0, strlen(command));
+	for (; i < strlen(str) - 1; i++)
 	{
 		if (str[i] == '\n')
 		{

@@ -12,13 +12,16 @@
 
 #define MAX_TERM_LEN 4096
 
+#define NOT_FOUND "(simple_shell): " RED "No such file or directory\n" RESET
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
 
-int _exec(char *command);
+int _exec(char *command, char *args[]);
 void prompt(char *str);
+void _splitstr(char *str, char **args);
 void stripln(char *str, char *command);
 
 #endif /* SHELL_H */
