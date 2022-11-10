@@ -58,6 +58,7 @@ void _splitstr(char *str, char **args)
 /**
 * prompt - Prompt for input in the shell
 * @str: pointer to prompted output
+* Return: 0 for success and vice-versa
 */
 
 int prompt(char *str)
@@ -65,15 +66,6 @@ int prompt(char *str)
 	printf(GRN "(simple_shell) " CYN "$ " RESET);
 	if (fgets(str, MAX_TERM_LEN, stdin) == NULL)
 		return (-1);
-	/*{
-		printf("%s", str);
-		if(str[strlen(str)-1] == '\0') {
-			printf("EOF\n");
-			return (-1);
-			break;
-		} else if (str[strlen(str)-1] == '\n')
-			return (0);
-	}*/
 	return (0);
 }
 
