@@ -22,6 +22,8 @@
 
 int _exec(char *command, char *args[]);
 int _isCommand(char *cmd);
+int not(int boolean);
+void parse(char *line, char **argv);
 int prompt(char *str);
 void _splitstr(char *str, char **args);
 void stripln(char *str, char *command);

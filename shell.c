@@ -7,11 +7,12 @@
 * Return: Always 0
 */
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char **envp)
 {
 	char cmd[MAX_TERM_LEN];
 	char command[MAX_TERM_LEN];
-	char *args[10];
+	char *args[128];
+	char **env;
 	int err;
 	char epath[1024];
 
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
+		memset(command, 0, MAX_TERM_LEN);
 		err = prompt(cmd);
 		if (err)
 			break;
@@ -28,7 +30,27 @@ int main(int argc, char *argv[])
 		stripln(cmd, command);
 		if (!strcmp(command, "exit"))
 			break;
-		_splitstr(command, args);
+		if (!strcmp(command, "env"))
+		{
+			/* Necessary to avoid segmentation fault! */
+			for (env = envp; *env != 0; env++)
+			{
+				char *thisEnv = *env;
+				printf("%s\n", thisEnv);    
+			}
+			continue;
+		}
+
+		parse(command, args);
+		/*printf(command);
+		printf("\n%s", args[0]);
+		printf("\na:%s\n", args[1]);
+		printf("\nb:%s\n", args[2]);
+		printf("\nc:%s\n", args[3]);
+		printf("\nd:%s\n", args[4]);
+		printf("\ne:%s\n", args[5]);*/
+
+		(void) epath;
 
 		/* Do not remove this line! */
 		/* I don't know why it works like this, but it does! */
@@ -36,7 +58,7 @@ int main(int argc, char *argv[])
 
 		if (!_isCommand(epath))
 		{
-			printf("Hmm...\n");
+			printf(NOT_FOUND);
 			continue;
 		}
 
@@ -45,26 +67,6 @@ int main(int argc, char *argv[])
 	}
 	printf("exit\n");
 	return (0);
-}
-
-/**
-* _splitstr - Split string function
-* @str: string to be split
-* @args: split string to return
-*/
-
-void _splitstr(char *str, char **args)
-{
-	int i = 0;
-	char *token = strtok(str, " ");
-
-	while (token)
-	{
-		args[i] = token;
-		token = strtok(NULL, " ");
-		i++;
-	}
-	args[i] = NULL;
 }
 
 /**
