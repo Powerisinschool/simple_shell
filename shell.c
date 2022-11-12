@@ -19,6 +19,8 @@ int main(int argc, char *argv[], char **envp)
 	(void) argv;
 	(void) argc;
 
+	printf("\nWelcome to simple shell designed by:\n\t-Tolulope Olagunju\n\t-Oyewale Adeosun\n\n");
+
 	while (1)
 	{
 		memset(command, 0, MAX_TERM_LEN);
