@@ -1,30 +1,48 @@
 #include "shell.h"
-#include <sys/wait.h>
-
 /**
- * _exec - Executor for commands
- * @command: The command to execute
- * @args: The argument count
- * Return: 0 for success and 1 for failed operation
+ * execute_proc - similar to puts in C
+ * @cmd: a pointer the integer we want to set to 402
+ *
+ * Return: int
  */
-
-int _exec(char *command, char *args[])
+void execute_proc(char **cmd)
 {
-	pid_t childpid;
-	int status;
 
-	childpid = fork();
-	if (childpid)
-	{
-		/* Very important to ensure loop does not continue during execution */
-		waitpid(childpid, &status, 0);
-		/*now we know execve is finished*/
-	}
+	char *parametro = (*(cmd + 1));
+	char *s, *slash = "/";
+	char *o;
 
-	if (childpid == 0)
+	char *vartoprint = *cmd;
+	char *argv[4];
+
+	if ((access(cmd[0], F_OK) == 0))
 	{
-		execve(command, args, __environ);
-		return (1);
+		argv[0] = cmd[0];
+		argv[1] = parametro;
+		argv[2] = ".";
+		argv[3] = NULL;
+
+		if (execve(argv[0], argv, NULL) == -1)
+		{
+			perror("Error");
+		}
 	}
-	return (0);
+	else
+	{
+		o = find_command(vartoprint);
+
+		slash = str_concat(o, slash);
+
+		s = str_concat(slash, *cmd);
+
+		argv[0] = s;
+		argv[1] = parametro;
+		argv[2] = ".";
+		argv[3] = NULL;
+
+		if (execve(argv[0], argv, NULL) == -1)
+		{
+			perror("Error");
+		}
+	}
 }

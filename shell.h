@@ -1,32 +1,36 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#define RED   "\x1B[31m"
-#define GRN   "\x1B[32m"
-#define YEL   "\x1B[33m"
-#define BLU   "\x1B[34m"
-#define MAG   "\x1B[35m"
-#define CYN   "\x1B[36m"
-#define WHT   "\x1B[37m"
-#define RESET "\x1B[0m"
-
-#define MAX_TERM_LEN 4096
-
-#define NOT_FOUND "(simple_shell): " RED "No such file or directory\n" RESET
-
-#include <signal.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 #include <stdio.h>
-#include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <limits.h>
+#include <string.h>
 
-int _exec(char *command, char *args[]);
-int _isCommand(char *cmd);
-int not(int boolean);
-void parse(char *line, char **argv);
-int prompt(char *str);
-void _splitstr(char *str, char **args);
-void stripln(char *str, char *command);
+extern char **environ;
+
+char *show_input(void);
+void prompt(void);
+char *_strcat(char *src);
+int _strlen(char *str);
+void place(char *str);
+char *findfile(char *command);
+char *find_command(char *command);
+int compare(char *s1, char *s2);
+int _strcmpdir(char *s1, char *s2);
+int charput(char c);
+void place(char *str);
+char *str_concat(char *s1, char *s2);
+int lookforslash(char *cmd);
+int compareExit(char *s1, char *s2);
+int compareEnv(char *s1, char *s2);
+void execute_proc(char **cmd);
+char **identify_string(char *parameter);
+void controlC(int sig);
 
 #endif /* SHELL_H */
