@@ -40,5 +40,4 @@ int not(int boolean)
 	if (boolean == 0)
 		return (1);
 	return (0);
-}
-**/
+}**/
