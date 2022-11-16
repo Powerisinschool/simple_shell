@@ -14,6 +14,7 @@
 
 #define NOT_FOUND "(simple_shell): " RED "No such file or directory\n" RESET
 
+#include <signal.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>

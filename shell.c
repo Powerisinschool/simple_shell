@@ -1,5 +1,7 @@
 #include "shell.h"
 
+void sigintHandler(int sig_num);
+
 /**
 * main - Entry point
 * @argc: argument count
@@ -17,6 +19,8 @@ int main(int argc, char *argv[], char **envp)
 
 	(void) argv;
 	(void) argc;
+
+	signal(SIGINT, sigintHandler);
 	while (1)
 	{
 		memset(command, 0, MAX_TERM_LEN);
@@ -87,4 +91,12 @@ void stripln(char *str, char *command)
 		else
 			command[i] = str[i];
 	}
+}
+
+void sigintHandler(int sig_num)
+{
+	(void) sig_num;
+	printf("\n" GRN "(simple_shell) " CYN "$ " RESET);
+	signal(SIGINT, sigintHandler);
+	fflush(stdout);
 }
