@@ -64,7 +64,7 @@ int main(int argc, char *argv[], char **envp)
 
 int prompt(char *str)
 {
-	printf(GRN "(simple_shell) " CYN "$ " RESET);
+	printf("$ ");
 	if (fgets(str, MAX_TERM_LEN, stdin) == NULL)
 		return (-1);
 	return (0);
@@ -101,7 +101,7 @@ void stripln(char *str, char *command)
 void sigintHandler(int sig_num)
 {
 	(void) sig_num;
-	printf("\n" GRN "(simple_shell) " CYN "$ " RESET);
+	printf("\n$ ");
 	signal(SIGINT, sigintHandler);
 	fflush(stdout);
 }
