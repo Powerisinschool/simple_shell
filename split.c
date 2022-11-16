@@ -1,3 +1,4 @@
+/**
 #include "shell.h"
 #include <sys/types.h>
 
@@ -40,3 +41,4 @@ int not(int boolean)
 		return (1);
 	return (0);
 }
+**/
