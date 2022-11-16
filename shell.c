@@ -93,6 +93,11 @@ void stripln(char *str, char *command)
 	}
 }
 
+/**
+ * sigintHandler - Handle sigint
+ * @sig_num: signal number
+ */
+
 void sigintHandler(int sig_num)
 {
 	(void) sig_num;
