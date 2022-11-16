@@ -4,23 +4,19 @@
 * main - Entry point
 * @argc: argument count
 * @argv: arguments as array
+* @envp: environmental variables
 * Return: Always 0
 */
 
 int main(int argc, char *argv[], char **envp)
 {
-	char cmd[MAX_TERM_LEN];
-	char command[MAX_TERM_LEN];
+	char cmd[MAX_TERM_LEN], command[MAX_TERM_LEN], epath[1024];
 	char *args[128];
 	char **env;
 	int err;
-	char epath[1024];
 
 	(void) argv;
 	(void) argc;
-
-	printf("\nWelcome to simple shell designed by:\n\t-Tolulope Olagunju\n\t-Oyewale Adeosun\n\n");
-
 	while (1)
 	{
 		memset(command, 0, MAX_TERM_LEN);
@@ -34,40 +30,25 @@ int main(int argc, char *argv[], char **envp)
 			break;
 		if (!strcmp(command, "env"))
 		{
-			/* Necessary to avoid segmentation fault! */
 			for (env = envp; *env != 0; env++)
 			{
 				char *thisEnv = *env;
-				printf("%s\n", thisEnv);    
+
+				printf("%s\n", thisEnv);
 			}
 			continue;
 		}
-
 		parse(command, args);
-		/*printf(command);
-		printf("\n%s", args[0]);
-		printf("\na:%s\n", args[1]);
-		printf("\nb:%s\n", args[2]);
-		printf("\nc:%s\n", args[3]);
-		printf("\nd:%s\n", args[4]);
-		printf("\ne:%s\n", args[5]);*/
-
-		(void) epath;
-
 		/* Do not remove this line! */
-		/* I don't know why it works like this, but it does! */
 		strcpy(epath, args[0]);
-
 		if (!_isCommand(epath))
 		{
 			printf(NOT_FOUND);
 			continue;
 		}
-
 		if (_exec(epath, args))
 			printf(NOT_FOUND);
 	}
-	printf("exit\n");
 	return (0);
 }
 
