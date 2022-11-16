@@ -1,0 +1,5 @@
+#! /bin/bash
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o $1
+mkdir bin
+cp $1 ./bin/
+export PATH=$PATH:$PWD/bin
