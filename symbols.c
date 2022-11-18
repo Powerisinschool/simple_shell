@@ -1,98 +1,87 @@
 #include "shell.h"
-/**
- * lookforslash - identifies if first char is a slash.
- * @cmd: first string
- * Return: 1 if yes 0 if no.
- */
-int lookforslash(char *cmd)
-{
-	int cont = 0;
-
-	while (cmd[cont])
-	{
-		if (cmd[0] == '/')
-		{
-			printf("%c\n", cmd[0]);
-			return (1);
-		}
-
-		cont++;
-	}
-	return (0);
-}
 
 /**
- * compareExit - identifies if first char is a slash.
- * @s1: first string
- * @s2: exit string
- * Return: 1 if yes 0 if no.
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: pointer to destination
  */
-int compareExit(char *s1, char *s2)
+char *_strcpy(char *dest, char *src)
 {
 	int i = 0;
 
-	for (; (*s2 != '\0' && *s1 != '\0') && *s1 == *s2; s1++)
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
 	{
-		if (i == 3)
-			break;
+		dest[i] = src[i];
 		i++;
-		s2++;
 	}
-
-	return (*s1 - *s2);
+	dest[i] = 0;
+	return (dest);
 }
 
 /**
- * compareEnv - identifies if first char is a slash.
- * @s1: first string
- * @s2: exit string
- * Return: 1 if yes 0 if no.
+ * _strdup - duplicates a string
+ * @str: the string to duplicate
+ *
+ * Return: pointer to the duplicated string
  */
-int compareEnv(char *s1, char *s2)
+char *_strdup(const char *str)
+{
+	int length = 0;
+	char *ret;
+
+	if (str == NULL)
+		return (NULL);
+	while (*str++)
+		length++;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+		return (NULL);
+	for (length++; length--;)
+		ret[length] = *--str;
+	return (ret);
+}
+
+/**
+ *_puts - prints an input string
+ *@str: the string to be printed
+ *
+ * Return: Nothing
+ */
+void _puts(char *str)
 {
 	int i = 0;
 
-	for (; (*s2 != '\0' && *s1 != '\0') && *s1 == *s2; s1++)
+	if (!str)
+		return;
+	while (str[i] != '\0')
 	{
-		if (i == 2)
-			break;
+		_putchar(str[i]);
 		i++;
-		s2++;
 	}
-
-	return (*s1 - *s2);
 }
+
 /**
- * identify_string - identyfy keyboard input.
- * @parameter: call prompt from another function (prompt)
- * Return: str
- **/
-char **identify_string(char *parameter)
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(char c)
 {
-	char **buf = malloc(1024 * sizeof(char *));
-	char *split;
-	int i = 0;
-	char *delim = " \t\n";
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
 
-
-	split = strtok(parameter, delim);
-
-	while (split != NULL)
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
-		buf[i] = split;
-		i++;
-		split = strtok(NULL, delim);
+		write(1, buf, i);
+		i = 0;
 	}
-	execute_proc(buf);
-	return (buf);
-
-}
-/**
- * controlC - avoid close the shell
- * @sig: keep going shell
- **/
-void  controlC(int sig)
-{
-	(void) sig;
-	write(1, "\n$ ", 3);
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
 }
